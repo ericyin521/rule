@@ -1,0 +1,9 @@
+#!name= API Ping
+#!desc= 测试网络延迟 🍉.eu.org/ping 需要打开【使用辅助 API Ping】开关
+#!category= Key
+
+[Script]
+SPing = type=http-request, pattern=^https?:\/\/ping\.neteasems\.test, requires-body=1, timeout=50, script-path=api_ping.js,debug=1
+
+[MITM]
+hostname = %APPEND% *.neteasems.test
