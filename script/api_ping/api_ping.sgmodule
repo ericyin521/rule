@@ -3,7 +3,7 @@
 #!category= Key
 
 [Script]
-SPing = type=http-request, pattern=^https?:\/\/ping\.neteasems\.test, requires-body=1, timeout=50, script-path=api_ping.js,debug=1
+SPing = type=http-request, pattern=^https?:\/\/ping\.neteasems\.test, requires-body=1, timeout=50, script-path=https://raw.githubusercontent.com/Keywos/rule/main/script/api_ping/js/api_pIng.js
 
 [MITM]
 hostname = %APPEND% *.neteasems.test
