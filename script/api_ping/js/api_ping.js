@@ -1,4 +1,4 @@
-// 2025-02-12 23:38:27
+// 2025-02-13 00:00:07
 !(async () => {
   let timeouts = 5000;
   try {
@@ -22,7 +22,7 @@
         ? "Shadowrocket"
         : void 0;
     };
-    if (url) {
+    if (url?.includes("?")) {
       ins = Object.fromEntries(
         (url.split("?")[1] || "")
           .split("&")
@@ -30,9 +30,7 @@
           .map(([k, v]) => [k, decodeURIComponent(v)])
       );
       timeouts = Number(ins.timeout) || 5000;
-      if (ins.url == "test") {
-        ms = "1";
-      } else {
+      if (ins.url != "test") {
         ms = await new Promise((resolve, reject) => {
           let e = Date.now();
           const timeoutPromise = new Promise((_, reject) => {
