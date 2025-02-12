@@ -5,7 +5,6 @@
     let url = typeof $request !== "undefined" && $request.url,
       ms = "",
       ins;
-
     const getEnv = () => {
       return "undefined" != typeof Egern
         ? "Egern"
@@ -55,6 +54,7 @@
                 })
                 .catch((error) => {
                   reject(error);
+                  resolve(timeouts);
                 });
             });
           } else {
@@ -78,7 +78,6 @@
       "Access-Control-Allow-Origin": "*",
     };
     if (getEnv() == "Quantumult X") {
-      const s = $environment.version.split(" ");
       $done({
         status: "HTTP/1.1 200 OK",
         headers: headers,
