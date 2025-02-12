@@ -39,11 +39,28 @@
             resolve(timeouts);
           }, timeouts);
         });
-        const reqPromise = new Promise((resolve) => {
-          $httpClient.get(ins.url, resolve);
-        });
+        let reqPromise;
+        if (getEnv() == "Quantumult X") {
+          reqPromise = new Promise((resolve, reject) => {
+            $task
+              .fetch({
+                url: ins.url,
+                method: "GET",
+              })
+              .then((response) => {
+                resolve(response);
+              })
+              .catch((error) => {
+                reject(error);
+              });
+          });
+        } else {
+          reqPromise = new Promise((resolve) => {
+            $httpClient.get(ins.url, resolve);
+          });
+        }
         Promise.race([reqPromise, timeoutPromise])
-          .then((i) => {
+          .then(() => {
             resolve(Date.now() - e);
           })
           .catch((error) => {
@@ -52,21 +69,36 @@
           });
       });
     }
-    $done({
-      response: {
-        status: 200,
-        headers: {
-          "Content-Type": "application/json; charset=utf-8",
-          "Access-Control-Allow-Origin": "*",
-        },
+    const headers = {
+      "Content-Type": "application/json; charset=utf-8",
+      "Access-Control-Allow-Origin": "*",
+    };
+    if (getEnv() == "Quantumult X") {
+      const s = $environment.version.split(" ");
+      $done({
+        status: "HTTP/1.1 200 OK",
+        headers: headers,
         body: JSON.stringify({
           sp: 1,
           ms: ms,
           app: getEnv(),
           timeouts: timeouts,
         }),
-      },
-    });
+      });
+    } else {
+      $done({
+        response: {
+          status: 200,
+          headers: headers,
+          body: JSON.stringify({
+            sp: 1,
+            ms: ms,
+            app: getEnv(),
+            timeouts: timeouts,
+          }),
+        },
+      });
+    }
   } catch (e) {
     console.log(e.message);
     throw new Error();
