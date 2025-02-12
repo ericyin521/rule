@@ -3,7 +3,7 @@
   let timeouts = 5000;
   try {
     let url = typeof $request !== "undefined" && $request.url,
-      ms,
+      ms = "",
       ins;
 
     const getEnv = () => {
